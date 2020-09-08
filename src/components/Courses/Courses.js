@@ -9,6 +9,10 @@ const Courses = (props) => {
 	const [courseTaken, setCourseTaken] = useState(0);
 	const [cart, setCart] = useState([]);
 	const [enrolledCourse, setEnrolledCourse] = useState([]);
+	const [classSuccess, setClassSucess] = useState("alert alert-success d-none");
+	const [classWarning, setClassWarning] = useState(
+		"alert alert-warning d-none"
+	);
 
 	useEffect(() => {
 		setData(datas);
@@ -16,8 +20,15 @@ const Courses = (props) => {
 
 	const handleEnrolment = (courses) => {
 		if (enrolledCourse.includes(courses.name)) {
-			alert("Already enrolled. Try another course");
+			setClassWarning("alert alert-warning");
+			setTimeout(() => {
+				setClassWarning("alert alert-warning  d-none");
+			}, 3000);
 		} else {
+			setClassSucess("alert alert-success");
+			setTimeout(() => {
+				setClassSucess("alert alert-success  d-none");
+			}, 3000);
 			setCourseTaken(courseTaken + 1);
 
 			const newEnrollment = [...enrolledCourse, courses.name];
@@ -32,6 +43,12 @@ const Courses = (props) => {
 			<div className="row">
 				<div className="col-md-8 courses">
 					<h2>Courses</h2>
+					<div className={classSuccess} role="alert">
+						Thank you for taking the course
+					</div>
+					<div className={classWarning} role="alert">
+						Already Enrolled. Please try another Course
+					</div>
 					<div className="row">
 						{data.map((course) => (
 							<Course
